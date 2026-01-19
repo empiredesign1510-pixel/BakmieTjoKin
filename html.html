@@ -1,0 +1,385 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Bakmie Tjo Kin</title>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;700&display=swap" rel="stylesheet">
+    
+    <style>
+        /* --- CSS: Styling Tampilan --- */
+        :root {
+            --primary: #d32f2f; /* Merah Cabai */
+            --accent: #fbc02d; /* Kuning Mie */
+            --dark: #212121;
+            --gray: #f5f5f5;
+            --white: #ffffff;
+            --radius: 12px;
+            --shadow: 0 4px 15px rgba(0,0,0,0.08);
+        }
+
+        * { box-sizing: border-box; margin: 0; padding: 0; font-family: 'Poppins', sans-serif; }
+        body { background-color: var(--gray); padding-bottom: 100px; color: var(--dark); }
+
+        /* 1. HERO SECTION (Foto Utama) */
+        .hero {
+            position: relative;
+            height: 320px;
+            /* Saya set foto menu ke-3 (Casiu) sebagai cover karena warnanya menarik */
+            background: url('header1.jpg') no-repeat center center/cover;
+            display: flex;
+            align-items: flex-end;
+        }
+        .hero-overlay {
+            position: absolute; top: 0; left: 0; width: 100%; height: 100%;
+            background: linear-gradient(to bottom, rgba(0,0,0,0) 40%, rgba(0,0,0,0.9) 100%);
+        }
+        .hero-content {
+            position: relative;
+            padding: 20px;
+            color: white;
+            z-index: 2;
+            width: 100%;
+        }
+        .hero-content h1 { font-size: 1.8rem; font-weight: 700; text-shadow: 0 2px 4px rgba(0,0,0,0.5); margin-bottom: 5px;}
+        .hero-content p { font-size: 0.9rem; opacity: 0.95; }
+        .badge { background: var(--accent); color: var(--dark); padding: 4px 10px; border-radius: 4px; font-size: 0.75rem; font-weight: bold; display: inline-block; margin-bottom: 8px; }
+
+        /* 2. KEUNGGULAN */
+        .features {
+            display: flex;
+            justify-content: space-around;
+            background: var(--white);
+            padding: 20px 10px;
+            margin-bottom: 15px;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.05);
+            border-bottom-left-radius: 15px;
+            border-bottom-right-radius: 15px;
+        }
+        .feature-item { text-align: center; width: 30%; }
+        .feature-icon { font-size: 1.5rem; margin-bottom: 5px; }
+        .feature-text { font-size: 0.75rem; font-weight: 600; color: #555; }
+
+        /* 3. MENU SECTION */
+        .section-title { padding: 0 20px; margin: 25px 0 15px; font-size: 1.2rem; font-weight: 700; border-left: 5px solid var(--primary); line-height: 1; }
+        
+        .menu-container { padding: 0 15px; }
+        
+        .menu-item {
+            background: var(--white);
+            border-radius: var(--radius);
+            padding: 15px;
+            margin-bottom: 15px;
+            box-shadow: var(--shadow);
+            transition: transform 0.2s;
+            overflow: hidden;
+        }
+        
+        .menu-top { display: flex; gap: 15px; }
+        .thumb {
+            width: 90px; height: 90px;
+            border-radius: 10px;
+            background: #eee;
+            overflow: hidden; flex-shrink: 0;
+            position: relative;
+        }
+        .thumb img { width: 100%; height: 100%; object-fit: cover; }
+        
+        .details { flex-grow: 1; display: flex; flex-direction: column; justify-content: space-between; }
+        .details h3 { font-size: 1rem; margin-bottom: 4px; line-height: 1.3; }
+        .details .desc { font-size: 0.75rem; color: #777; line-height: 1.3; margin-bottom: 8px; }
+        .details .price { font-weight: 700; color: var(--primary); font-size: 1.05rem; }
+
+        /* Controls */
+        .controls { display: flex; align-items: center; justify-content: space-between; margin-top: 10px; }
+        .btn-qty {
+            width: 32px; height: 32px; border-radius: 50%;
+            border: 1px solid #ddd; color: var(--primary);
+            font-weight: bold; display: flex; align-items: center; justify-content: center; cursor: pointer;
+            font-size: 1.1rem;
+        }
+        .btn-qty.add { background: var(--primary); color: white; border: none; }
+        .qty-val { font-weight: 600; width: 30px; text-align: center; font-size: 1rem;}
+
+        /* Input Request */
+        .note-area {
+            margin-top: 12px;
+            border-top: 1px dashed #eee;
+            padding-top: 10px;
+            display: none;
+            animation: slideDown 0.3s ease;
+        }
+        @keyframes slideDown { from {opacity:0; transform:translateY(-5px);} to {opacity:1; transform:translateY(0);} }
+        
+        .note-input {
+            width: 100%;
+            border: 1px solid #ddd;
+            background: #f9f9f9;
+            padding: 10px;
+            border-radius: 8px;
+            font-size: 0.8rem;
+            outline: none;
+            transition: 0.2s;
+        }
+        .note-input:focus { border-color: var(--primary); background: #fff; }
+
+        /* 4. TESTIMONI */
+        .testimonials {
+            display: flex;
+            overflow-x: auto;
+            padding: 10px 15px 30px;
+            gap: 15px;
+            scrollbar-width: none;
+        }
+        .testimonials::-webkit-scrollbar { display: none; }
+        
+        .testi-card {
+            min-width: 260px;
+            background: var(--white);
+            padding: 20px;
+            border-radius: var(--radius);
+            box-shadow: var(--shadow);
+            font-size: 0.85rem;
+            line-height: 1.5;
+            border: 1px solid #eee;
+        }
+        .testi-name { font-weight: bold; margin-top: 10px; color: var(--primary); font-size: 0.85rem; display: flex; align-items: center; gap:5px;}
+
+        /* 5. STICKY CHECKOUT */
+        .checkout-bar {
+            position: fixed; bottom: 0; left: 0; width: 100%;
+            background: var(--white); padding: 15px 20px;
+            box-shadow: 0 -5px 20px rgba(0,0,0,0.1);
+            display: flex; justify-content: space-between; align-items: center;
+            z-index: 100;
+            border-top: 1px solid #f0f0f0;
+        }
+        .total-box h4 { font-size: 0.75rem; color: #888; margin-bottom: 2px;}
+        .total-box .price { font-size: 1.25rem; font-weight: 800; color: var(--dark); }
+        .btn-pesan {
+            background: linear-gradient(to right, #d32f2f, #b71c1c);
+            color: white; border: none;
+            padding: 12px 35px; border-radius: 50px;
+            font-weight: 600; box-shadow: 0 4px 10px rgba(211, 47, 47, 0.4);
+            transition: transform 0.1s;
+        }
+        .btn-pesan:active { transform: scale(0.95); }
+
+    </style>
+</head>
+<body>
+
+    <div class="hero">
+        <div class="hero-overlay"></div>
+        <div class="hero-content">
+            <span class="badge">BUKA: 10.00 - 22.00</span>
+            <h1>Bakmie Tjo Kin</h1>
+            <p>Nikmati citarasa bakmie legendaris dengan topping melimpah dan resep rahasia keluarga.</p>
+        </div>
+    </div>
+
+    <div class="features">
+        <div class="feature-item">
+            <div class="feature-icon">🔥</div>
+            <div class="feature-text">Disajikan Hangat</div>
+        </div>
+        <div class="feature-item">
+            <div class="feature-icon">🥬</div>
+            <div class="feature-text">Bahan Segar</div>
+        </div>
+        <div class="feature-item">
+            <div class="feature-icon">💯</div>
+            <div class="feature-text">100% Halal</div>
+        </div>
+    </div>
+
+    <h2 class="section-title">Menu Spesial</h2>
+    <div class="menu-container" id="menu-list">
+        </div>
+
+    <h2 class="section-title">Apa Kata Mereka?</h2>
+    <div class="testimonials">
+        <div class="testi-card">
+            "Bakmie Ayam Jamurnya juara! Bumbunya meresap banget, jamurnya nggak pelit. Wajib coba!"
+            <div class="testi-name">⭐ Andi, Karyawan Bank</div>
+        </div>
+        <div class="testi-card">
+            "Suka banget sama Bakmie Pedas Casiu-nya. Pedesnya nampol tapi nagih, dagingnya juga empuk."
+            <div class="testi-name">⭐ Siska, Mahasiswi</div>
+        </div>
+        <div class="testi-card">
+            "Pangsit gorengnya renyah banget, cocok buat temen makan bakmie. Es Teh Jumbo-nya beneran gede!"
+            <div class="testi-name">⭐ Budi, Driver Ojol</div>
+        </div>
+    </div>
+
+    <div class="checkout-bar">
+        <div class="total-box">
+            <h4>Total Pembayaran</h4>
+            <div class="price" id="grand-total">Rp 0</div>
+        </div>
+        <button class="btn-pesan" onclick="kirimPesanan()">Pesan via WA</button>
+    </div>
+
+    <script>
+        // --- CONFIGURASI DATA MENU ---
+        // Foto diambil dari file lokal (menu1.jpg, menu2.jpg, dst)
+        const products = [
+            { 
+                id: 1, 
+                name: "Bakmie Ayam Jamur", 
+                desc: "Mie kenyal dengan topping ayam jamur manis gurih & sayur pakcoy.", 
+                price: 22000, 
+                img: "menu1.jpg" // Foto Bakmie Ayam Jamur
+            },
+            { 
+                id: 2, 
+                name: "Bakmie Yamin Manis", 
+                desc: "Mie dengan kecap manis spesial, taburan ayam & pangsit goreng.", 
+                price: 22000, 
+                img: "menu2.jpg" // Foto Bakmie Yamin
+            },
+            { 
+                id: 3, 
+                name: "Bakmie Pedas Casiu", 
+                desc: "Best Seller! Mie pedas dengan irisan daging casiu merah & krupuk kulit.", 
+                price: 28000, 
+                img: "menu3.jpg" // Foto Bakmie Pedas Casiu
+            },
+            { 
+                id: 4, 
+                name: "Pangsit Goreng", 
+                desc: "Pangsit goreng renyah isi ayam (1 porsi isi 5 pcs).", 
+                price: 15000, 
+                img: "menu4.jpg" // Foto Pangsit Goreng
+            },
+            { 
+                id: 5, 
+                name: "Es Teh Manis Jumbo", 
+                desc: "Es teh manis segar ukuran jumbo, puas leganya.", 
+                price: 8000, 
+                img: "menu5.jpg" // Foto Es Teh
+            }
+        ];
+
+        // --- LOGIKA APLIKASI (JANGAN DIUBAH KECUALI NOMOR WA) ---
+        let cart = {}; 
+        let notes = {}; 
+
+        function renderMenu() {
+            const container = document.getElementById('menu-list');
+            container.innerHTML = ''; 
+
+            products.forEach(item => {
+                const qty = cart[item.id] || 0;
+                const note = notes[item.id] || '';
+                
+                const minBtn = qty > 0 ? `<div class="btn-qty" onclick="updateQty(${item.id}, -1)">-</div>` : '';
+                const qtyDisplay = qty > 0 ? `<div class="qty-val">${qty}</div>` : '';
+                const noteDisplay = qty > 0 ? 'block' : 'none';
+
+                // Gunakan placeholder jika gambar error (misal lupa save file)
+                const imgHTML = `<img src="${item.img}" alt="${item.name}" onerror="this.src='https://via.placeholder.com/100?text=No+Img'">`;
+
+                const html = `
+                <div class="menu-item">
+                    <div class="menu-top">
+                        <div class="thumb">
+                            ${imgHTML}
+                        </div>
+                        <div class="details">
+                            <div>
+                                <h3>${item.name}</h3>
+                                <p class="desc">${item.desc}</p>
+                            </div>
+                            <div class="controls">
+                                <div class="price">${formatRupiah(item.price)}</div>
+                                <div style="display:flex; gap:10px; align-items:center;">
+                                    ${minBtn}
+                                    ${qtyDisplay}
+                                    <div class="btn-qty add" onclick="updateQty(${item.id}, 1)">+</div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="note-area" style="display: ${noteDisplay}">
+                        <input type="text" class="note-input" 
+                               placeholder="Tambah catatan... (bebas)" 
+                               value="${note}" 
+                               oninput="saveNote(${item.id}, this.value)">
+                    </div>
+                </div>
+                `;
+                container.innerHTML += html;
+            });
+            
+            updateTotal();
+        }
+
+        function updateQty(id, change) {
+            if (!cart[id]) cart[id] = 0;
+            cart[id] += change;
+            if (cart[id] <= 0) {
+                delete cart[id];
+                delete notes[id];
+            }
+            renderMenu(); 
+            // Fokus balik ke input note jika menambah item (optional UX improvement)
+        }
+
+        function saveNote(id, text) {
+            notes[id] = text;
+        }
+
+        function updateTotal() {
+            let total = 0;
+            let count = 0;
+            for (let id in cart) {
+                let item = products.find(p => p.id == id);
+                total += item.price * cart[id];
+                count += cart[id];
+            }
+            document.getElementById('grand-total').innerText = formatRupiah(total);
+            
+            const btn = document.querySelector('.btn-pesan');
+            btn.innerText = count > 0 ? `Pesan (${count} Item)` : 'ORDER SEKARANG';
+            btn.style.opacity = count > 0 ? '1' : '0.8';
+        }
+
+        function formatRupiah(num) {
+            return 'Rp ' + num.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ".");
+        }
+
+        function kirimPesanan() {
+            if (Object.keys(cart).length === 0) {
+                alert("Keranjang masih kosong, pilih menu favoritmu dulu!");
+                return;
+            }
+
+            let text = "Halo kak, saya mau pesan:%0A%0A";
+            let total = 0;
+
+            for (let id in cart) {
+                let item = products.find(p => p.id == id);
+                let qty = cart[id];
+                let note = notes[id] ? ` _(Catatan: ${notes[id]})_` : ""; 
+                let subtotal = item.price * qty;
+                
+                text += `🍜 *${item.name}* (${qty}x) ${note}%0A   Harga: ${formatRupiah(subtotal)}%0A`;
+                total += subtotal;
+            }
+
+            text += `%0A---------------------------%0A*TOTAL: ${formatRupiah(total)}*%0A---------------------------`;
+            text += "%0A%0AMohon info pembayarannya ya, Terima kasih! 🙏";
+
+            // GANTI NOMOR WHATSAPP DI SINI (Gunakan kode negara 62)
+            const nomorAdmin = "6285894956788"; 
+            
+            window.location.href = `https://wa.me/${nomorAdmin}?text=${text}`;
+        }
+
+        // Jalankan saat load
+        renderMenu();
+    </script>
+</body>
+</html>
